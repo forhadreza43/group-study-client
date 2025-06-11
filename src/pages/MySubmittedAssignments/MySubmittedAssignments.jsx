@@ -1,0 +1,64 @@
+import { useQuery } from "@tanstack/react-query";
+import useAuth from "../../hook/useAuth";
+import axios from "axios";
+
+const MySubmittedAssignments = () => {
+  const { user } = useAuth();
+
+  const { data: submissions = [], isLoading } = useQuery({
+    queryKey: ["submittedAssignments", user.email],
+    queryFn: async () => {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/submitted-assignments?email=${
+          user.email
+        }`
+      );
+      return res.data;
+    },
+    enabled: !!user.email,
+  });
+
+  if (isLoading) return <h2 className="text-center mt-10">Loading...</h2>;
+
+  return (
+    <div className="max-w-5xl mx-auto p-6">
+      <h2 className="text-3xl font-bold mb-6 text-center">
+        My Submitted Assignments
+      </h2>
+      {submissions.length === 0 ? (
+        <p className="text-center">
+          You haven’t submitted any assignments yet.
+        </p>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="table w-full">
+            <thead className="bg-base-200">
+              <tr>
+                <th>#</th>
+                <th>Assignment Title</th>
+                <th>Status</th>
+                <th>Total Marks</th>
+                <th>Obtained Marks</th>
+                <th>Feedback</th>
+              </tr>
+            </thead>
+            <tbody>
+              {submissions.map((submission, index) => (
+                <tr key={submission._id}>
+                  <td>{index + 1}</td>
+                  <td>{submission.assignmentTitle || "N/A"}</td>
+                  <td className="capitalize">{submission.status}</td>
+                  <td>{submission.assignmentMarks || "N/A"}</td>
+                  <td>{submission.obtainedMarks ?? "-"}</td>
+                  <td>{submission.feedback ?? "-"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default MySubmittedAssignments;

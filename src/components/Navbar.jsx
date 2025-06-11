@@ -83,7 +83,9 @@ const Navbar = () => {
                   <NavLink to="/createAssignment">Create Assignment</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/myAssignments">My Attempted Assignments</NavLink>
+                  <NavLink to="/mySubmittedAssignments">
+                    My Attempted Assignments
+                  </NavLink>
                 </li>
                 <li>
                   <button

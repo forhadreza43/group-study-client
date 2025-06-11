@@ -4,6 +4,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import useAuth from "../../hook/useAuth";
 import { useState } from "react";
+import Loading from "../../components/Loading";
 
 const AssignmentDetails = () => {
   const { id } = useParams();
@@ -15,12 +16,11 @@ const AssignmentDetails = () => {
     queryKey: ["assignment", id],
     queryFn: async () => {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/assignments/${id}`
+        `${import.meta.env.VITE_API_URL}/assignment/${id}`
       );
       return res.data;
     },
   });
-
   const submitMutation = useMutation({
     mutationFn: (payload) =>
       axios.post(
@@ -50,10 +50,12 @@ const AssignmentDetails = () => {
       docLink: form.docLink,
       note: form.note,
       status: "pending",
+      assignmentTitle: assignment.title,
+      assignmentMarks: assignment.marks,
     });
   };
 
-  if (isLoading) return <h2 className="text-center mt-10">Loading...</h2>;
+  if (isLoading) return <Loading />;
 
   return (
     <div className="max-w-3xl mx-auto mt-10 p-6 bg-white shadow-md rounded">
