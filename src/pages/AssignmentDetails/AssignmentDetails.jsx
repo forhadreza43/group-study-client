@@ -1,21 +1,22 @@
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import toast from "react-hot-toast";
 import useAuth from "../../hook/useAuth";
 import { useState } from "react";
 import Loading from "../../components/Loading";
+import useAxiosSecure from "../../hook/useAxiosSecure";
 
 const AssignmentDetails = () => {
   const { id } = useParams();
   const { user } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState({ docLink: "", note: "" });
+  const axiosSecure = useAxiosSecure();
 
   const { data: assignment, isLoading } = useQuery({
     queryKey: ["assignment", id],
     queryFn: async () => {
-      const res = await axios.get(
+      const res = await axiosSecure.get(
         `${import.meta.env.VITE_API_URL}/assignment/${id}`
       );
       return res.data;
@@ -23,7 +24,7 @@ const AssignmentDetails = () => {
   });
   const submitMutation = useMutation({
     mutationFn: (payload) =>
-      axios.post(
+      axiosSecure.post(
         `${import.meta.env.VITE_API_URL}/submitted-assignments`,
         payload
       ),
@@ -86,7 +87,9 @@ const AssignmentDetails = () => {
         {showModal && (
           <dialog open className="modal modal-open">
             <div className="modal-box dark:bg-gray-600">
-              <h3 className="font-bold text-lg mb-4 dark:text-gray-200">Submit Assignment</h3>
+              <h3 className="font-bold text-lg mb-4 dark:text-gray-200">
+                Submit Assignment
+              </h3>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <input
                   type="url"
@@ -100,7 +103,7 @@ const AssignmentDetails = () => {
                 />
                 <textarea
                   placeholder="Quick Notes"
-                  className="textarea textarea-bordered w-full"
+                  className="textarea textarea-bordered placeholder:text-gray-400 w-full border-blue-300 dark:bg-gray-900"
                   value={form.note}
                   onChange={(e) => setForm({ ...form, note: e.target.value })}
                   required

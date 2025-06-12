@@ -6,6 +6,7 @@ import useAuth from "../../hook/useAuth";
 import { useEffect, useState, useMemo } from "react";
 import debounce from "lodash.debounce";
 import Loading from "../../components/Loading";
+import useAxiosSecure from "../../hook/useAxiosSecure";
 
 const Assignments = () => {
   const { user } = useAuth();
@@ -15,6 +16,7 @@ const Assignments = () => {
   const [difficulty, setDifficulty] = useState("");
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const axiosSecure = useAxiosSecure();
 
   const { data: assignments = [], isLoading } = useQuery({
     queryKey: ["assignments", difficulty, debouncedSearch],
@@ -34,7 +36,7 @@ const Assignments = () => {
 
   const deleteMutation = useMutation({
     mutationFn: (id) => {
-      return axios.delete(
+      return axiosSecure.delete(
         `${import.meta.env.VITE_API_URL}/assignments/${id}?email=${user.email}`
       );
     },
