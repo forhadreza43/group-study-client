@@ -1,13 +1,39 @@
-// src/components/DarkModeToggle.jsx
 import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 
 export default function DarkModeToggle() {
-  const [isDark, setIsDark] = useState(() => {
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
     const stored = localStorage.getItem("theme");
-    if (stored) return stored === "dark";
-    return window.matchMedia("(prefers-color-scheme: dark)").matches;
-  });
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+
+    // Detect screen width
+    const isMobile = window.innerWidth < 768;
+
+    // Auto-set dark mode on mobile without toggle
+    if (isMobile) {
+      if (prefersDark) {
+        document.documentElement.classList.add("dark");
+        localStorage.setItem("theme", "dark");
+        setIsDark(true);
+      } else {
+        document.documentElement.classList.remove("dark");
+        localStorage.setItem("theme", "light");
+        setIsDark(false);
+      }
+      return; // skip toggle on mobile
+    }
+
+    // Desktop or tablet: use stored preference or fallback to system
+    if (stored) {
+      setIsDark(stored === "dark");
+    } else {
+      setIsDark(prefersDark);
+    }
+  }, []);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -19,6 +45,9 @@ export default function DarkModeToggle() {
       localStorage.setItem("theme", "light");
     }
   }, [isDark]);
+
+  // Hide toggle on mobile
+  if (window.innerWidth < 768) return null;
 
   return (
     <button
