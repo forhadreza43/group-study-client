@@ -10,6 +10,7 @@ const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const mobileMenuRef = useRef(null);
 
   const handleLogout = async () => {
     try {
@@ -26,6 +27,12 @@ const Navbar = () => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setDropdownOpen(false);
       }
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target)
+      ) {
+        setMobileMenuOpen(false);
+      }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -38,7 +45,7 @@ const Navbar = () => {
         <div className="navbar-start lg:hidden">
           <button
             onClick={() => setMobileMenuOpen((prev) => !prev)}
-            className="btn btn-ghost btn-square"
+            className="btn btn-ghost btn-square dark:text-white"
           >
             <Menu />
           </button>
@@ -116,7 +123,7 @@ const Navbar = () => {
 
       {/* Mobile Dropdown */}
       {mobileMenuOpen && (
-        <div className="lg:hidden">
+        <div className="lg:hidden" ref={mobileMenuRef}>
           <ul className="absolute left-0 mt-2 w-52 p-2 shadow bg-base-200 rounded-box z-50 menu menu-sm">
             <li>
               <NavLink
