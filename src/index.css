@@ -1,6 +1,12 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@custom-variant dark (&:where(.dark, .dark *));
+@plugin "daisyui" {
+    themes: light --default;
+}
 
 .active{
     @apply underline underline-offset-7
 }
+
+input {
+    @apply w-full rounded border border-blue-300 px-4 py-2 text-gray-600 outline-none placeholder:text-gray-400 focus:border-blue-600 bg-white dark:bg-gray-800; }

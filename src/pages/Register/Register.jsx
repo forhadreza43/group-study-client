@@ -51,9 +51,9 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-base-100">
-      <div className="w-full max-w-md p-8 shadow-md rounded-lg bg-white">
-        <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="w-full max-w-md p-8 shadow-md rounded-lg bg-purple-100 dark:bg-gray-900">
+        <h2 className="text-2xl font-bold mb-6 text-center text-blue-700">Register</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="text"

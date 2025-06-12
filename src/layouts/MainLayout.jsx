@@ -6,8 +6,10 @@ const MainLayout = () => {
   return (
     <div>
       <Navbar />
-      <div className="w-11/12 mx-auto max-w-7xl min-h-[calc(100vh-68px)]">
-        <Outlet />
+      <div className="dark:bg-gray-800">
+        <div className="w-11/12 mx-auto max-w-7xl min-h-[calc(100vh-68px)]">
+          <Outlet />
+        </div>
       </div>
       <Footer />
     </div>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { toast } from "react-hot-toast"; 
+import { toast } from "react-hot-toast";
 import useAuth from "../../hook/useAuth";
 
 export default function Login() {
@@ -48,8 +48,8 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-indigo-50 to-purple-100 px-4">
-      <div className="bg-white shadow-lg rounded-lg max-w-md w-full p-8">
+    <div className="min-h-screen flex flex-col justify-center items-center">
+      <div className="bg-purple-100 dark:bg-gray-900 shadow-lg rounded-lg max-w-md w-full p-8">
         <h2 className="text-3xl font-semibold text-center mb-6 text-indigo-700">
           Login to Your Account
         </h2>
@@ -70,7 +70,7 @@ export default function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="input input-bordered w-full"
+              className="input input-bordered w-full input-field"
               disabled={formLoading}
             />
           </div>
@@ -90,7 +90,7 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="********"
-              className="input input-bordered w-full"
+              className="input input-bordered w-full input-field"
               disabled={formLoading}
             />
           </div>
@@ -115,7 +115,7 @@ export default function Login() {
         {/* Google Login Button */}
         <button
           onClick={handleGoogleLogin}
-          className={`btn btn-outline btn-wide flex justify-center items-center gap-3 mx-auto ${
+          className={`btn btn-outline dark:bg-blue-100 w-full flex justify-center items-center gap-3 mx-auto ${
             formLoading ? "loading" : ""
           }`}
           disabled={formLoading}

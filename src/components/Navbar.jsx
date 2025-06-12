@@ -2,31 +2,13 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../hook/useAuth";
 import { useEffect, useRef, useState } from "react";
 import { LogOut } from "lucide-react";
-import { Moon, Sun } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import DarkModeToggle from "./DarkModeToggle";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const [isDark, setIsDark] = useState(() => {
-    const saved = localStorage.getItem("theme");
-    if (saved) return saved === "dark";
-    return window.matchMedia("(prefers-color-scheme: dark)").matches;
-  });
-
-  useEffect(() => {
-    const root = document.documentElement;
-    if (isDark) {
-      root.setAttribute("data-theme", "dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      root.setAttribute("data-theme", "light");
-      localStorage.setItem("theme", "light");
-    }
-  }, [isDark]);
-
   const handleLogout = async () => {
     try {
       await logOut();
@@ -73,35 +55,7 @@ const Navbar = () => {
         </div>
 
         <div className="navbar-end">
-          <button
-            onClick={() => setIsDark(!isDark)}
-            className="btn btn-sm btn-ghost relative mr-10 rounded-full"
-            aria-label="Toggle Theme"
-          >
-            <AnimatePresence mode="wait">
-              {isDark ? (
-                <motion.span
-                  key="moon"
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <Moon size={20} />
-                </motion.span>
-              ) : (
-                <motion.span
-                  key="sun"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <Sun size={20} />
-                </motion.span>
-              )}
-            </AnimatePresence>
-          </button>
+          <DarkModeToggle />
           {!user ? (
             <Link to="/login" className="btn btn-outline btn-primary btn-sm">
               Login
