@@ -50,7 +50,7 @@ const Navbar = () => {
           </li>
           {user && (
             <li>
-              <NavLink to="/pending">Pending Assignments</NavLink>
+              <NavLink to="/pendingAssignments">Pending Assignments</NavLink>
             </li>
           )}
         </ul>

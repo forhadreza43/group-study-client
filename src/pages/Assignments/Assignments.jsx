@@ -3,24 +3,35 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hook/useAuth";
-import { useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import debounce from "lodash.debounce";
+import Loading from "../../components/Loading";
 
 const Assignments = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [deleteId, setDeleteId] = useState(null);
+  const [difficulty, setDifficulty] = useState("");
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
 
-  // Fetch all assignments
   const { data: assignments = [], isLoading } = useQuery({
-    queryKey: ["assignments"],
+    queryKey: ["assignments", difficulty, debouncedSearch],
     queryFn: async () => {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/assignments`
+        `${import.meta.env.VITE_API_URL}/assignments`,
+        {
+          params: {
+            difficulty,
+            search: debouncedSearch,
+          },
+        }
       );
       return res.data;
     },
   });
+  
 
   const deleteMutation = useMutation({
     mutationFn: (id) => {
@@ -37,12 +48,48 @@ const Assignments = () => {
       toast.error(err.response?.data?.message || "Delete failed");
     },
   });
+  const debounced = useMemo(
+    () =>
+      debounce((val) => {
+        setDebouncedSearch(val);
+      }, 500),
+    []
+  );
 
-  if (isLoading) return <h2 className="text-center mt-20">Loading...</h2>;
+  useEffect(() => {
+    debounced(search);
+    return () => debounced.cancel(); 
+  }, [search, debounced]);
+  
+
+  if (isLoading) return <Loading/>;
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-bold mb-6 text-center">All Assignments</h1>
+      <div className="flex flex-col md:flex-row items-center justify-between mb-6 gap-4">
+        {/* Difficulty Filter */}
+        <select
+          className="select select-bordered w-full md:w-48"
+          value={difficulty}
+          onChange={(e) => setDifficulty(e.target.value)}
+        >
+          <option value="">All</option>
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+
+        {/* Search */}
+        <input
+          type="text"
+          placeholder="Search by title..."
+          className="input input-bordered w-full md:w-72"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
+
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {assignments.map((assignment) => (
           <div
