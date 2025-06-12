@@ -89,7 +89,7 @@ const Assignments = () => {
           type="text"
           id="search"
           placeholder="Search by title..."
-          className="input border border-blue-300 w-full md:w-72 dark:bg-gray-900 placeholder:text-gray-500"
+          className="input dark:text-gray-100 border border-blue-300 w-full md:w-72 dark:bg-gray-900 placeholder:text-gray-500"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
