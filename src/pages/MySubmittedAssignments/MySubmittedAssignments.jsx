@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../hook/useAuth";
 import axios from "axios";
+import Loading from "../../components/Loading";
+import NotFound from "../../components/NotFound";
 
 const MySubmittedAssignments = () => {
   const { user } = useAuth();
@@ -18,44 +20,47 @@ const MySubmittedAssignments = () => {
     enabled: !!user.email,
   });
 
-  if (isLoading) return <h2 className="text-center mt-10">Loading...</h2>;
+  if (isLoading) return <Loading />;
 
   return (
-    <div className="max-w-5xl mx-auto p-6">
-      <h2 className="text-3xl font-bold mb-6 text-center">
-        My Submitted Assignments
-      </h2>
+    <div className="max-w-7xl mx-auto py-6 w-11/12">
       {submissions.length === 0 ? (
-        <p className="text-center">
-          You haven’t submitted any assignments yet.
-        </p>
+        // <p className="text-center mt-30">
+        //   You haven’t submitted any assignments yet.
+        //         </p>
+        <NotFound />
       ) : (
-        <div className="overflow-x-auto">
-          <table className="table w-full">
-            <thead className="bg-base-200">
-              <tr>
-                <th>#</th>
-                <th>Assignment Title</th>
-                <th>Status</th>
-                <th>Total Marks</th>
-                <th>Obtained Marks</th>
-                <th>Feedback</th>
-              </tr>
-            </thead>
-            <tbody>
-              {submissions.map((submission, index) => (
-                <tr key={submission._id}>
-                  <td>{index + 1}</td>
-                  <td>{submission.assignmentTitle || "N/A"}</td>
-                  <td className="capitalize">{submission.status}</td>
-                  <td>{submission.assignmentMarks || "N/A"}</td>
-                  <td>{submission.obtainedMarks ?? "-"}</td>
-                  <td>{submission.feedback ?? "-"}</td>
+        <>
+          <h2 className="text-3xl font-bold mb-6 text-center">
+            My Submitted Assignments
+          </h2>
+          <div className="overflow-x-auto">
+            <table className="table w-full">
+              <thead className="bg-base-200">
+                <tr>
+                  <th>#</th>
+                  <th>Assignment Title</th>
+                  <th>Status</th>
+                  <th>Total Marks</th>
+                  <th>Obtained Marks</th>
+                  <th>Feedback</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {submissions.map((submission, index) => (
+                  <tr key={submission._id}>
+                    <td>{index + 1}</td>
+                    <td>{submission.assignmentTitle || "N/A"}</td>
+                    <td className="capitalize">{submission.status}</td>
+                    <td>{submission.assignmentMarks || "N/A"}</td>
+                    <td>{submission.obtainedMarks ?? "-"}</td>
+                    <td>{submission.feedback ?? "-"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
     </div>
   );

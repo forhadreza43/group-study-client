@@ -4,18 +4,19 @@ import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import PrivateRoute from "./PrivateRoute";
-import MyAssignments from "../pages/MyAssignments/MyAssignments";
 import CreateAssignment from "../pages/CreateAssignment/CreateAssignment";
 import Assignments from "../pages/Assignments/Assignments";
 import AssignmentDetails from "../pages/AssignmentDetails/AssignmentDetails";
 import UpdateAssignment from "../pages/UpdateAssignment/UpdateAssignment";
 import MySubmittedAssignments from "../pages/MySubmittedAssignments/MySubmittedAssignments";
 import PendingAssignments from "../pages/PendingAssignments/PendingAssignments";
+import ErrorPage from "../components/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
@@ -28,14 +29,6 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register />,
-      },
-      {
-        path: "/myAssignments",
-        element: (
-          <PrivateRoute>
-            <MyAssignments />
-          </PrivateRoute>
-        ),
       },
       {
         path: "/createAssignment",

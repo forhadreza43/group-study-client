@@ -1,19 +1,21 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import useAuth from "../../hook/useAuth";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import useAxiosSecure from "../../hook/useAxiosSecure";
+import Loading from "../../components/Loading";
 
 const PendingAssignments = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [selected, setSelected] = useState(null);
   const [form, setForm] = useState({ obtainedMarks: "", feedback: "" });
+  const axiosSecure = useAxiosSecure();
 
   const { data: pendingAssignments = [], isLoading } = useQuery({
     queryKey: ["pendingAssignments"],
     queryFn: async () => {
-      const res = await axios.get(
+      const res = await axiosSecure.get(
         `${import.meta.env.VITE_API_URL}/pending-submitted-assignments?email=${
           user.email
         }`
@@ -25,7 +27,7 @@ const PendingAssignments = () => {
 
   const mutation = useMutation({
     mutationFn: ({ id, ...data }) =>
-      axios.patch(
+      axiosSecure.patch(
         `${import.meta.env.VITE_API_URL}/submitted-assignments/${id}`,
         data
       ),
@@ -53,6 +55,7 @@ const PendingAssignments = () => {
     });
   };
 
+  if (isLoading) return <Loading />;
   return (
     <div className="max-w-6xl mx-auto p-6">
       <h2 className="text-3xl font-bold mb-6 text-center">

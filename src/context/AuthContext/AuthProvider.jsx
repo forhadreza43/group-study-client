@@ -1,5 +1,6 @@
 import {
   createUserWithEmailAndPassword,
+  getIdToken,
   GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
@@ -35,9 +36,20 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
   useEffect(() => {
-    const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unSubscribe = onAuthStateChanged(auth, async(currentUser) => {
       setUser(currentUser);
       setLoading(false);
+      if (currentUser) {
+        try {
+          // Just force-refresh the token if you need it for frontend use
+          await getIdToken(currentUser, true);
+          console.log("User logged in. Token refreshed.");
+        } catch (err) {
+          console.error("Token refresh failed:", err);
+        }
+      } else {
+        console.log("User signed out.");
+      }
     });
 
     return () => {

@@ -7,6 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import useAuth from "../../hook/useAuth";
+import Loading from "../../components/Loading";
 
 const UpdateAssignment = () => {
   const { user } = useAuth();
@@ -70,7 +71,7 @@ const UpdateAssignment = () => {
     mutation.mutate(updatedAssignment);
   };
 
-  if (isLoading) return <h2 className="text-center mt-20">Loading...</h2>;
+  if (isLoading) return <Loading />;
 
   return (
     <div className="max-w-2xl mx-auto mt-10 p-6 bg-white shadow-md rounded">
