@@ -1,14 +1,16 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../hook/useAuth";
 import { useEffect, useRef, useState } from "react";
-import { LogOut } from "lucide-react";
+import { LogOut, Menu } from "lucide-react";
 import DarkModeToggle from "./DarkModeToggle";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
+
   const handleLogout = async () => {
     try {
       await logOut();
@@ -18,7 +20,7 @@ const Navbar = () => {
     }
   };
 
-  // Close dropdown on outside click
+  // Close profile dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -26,21 +28,29 @@ const Navbar = () => {
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
-    <div className="bg-purple-100 shadow-md dark:bg-gray-900">
+    <div className="bg-purple-100 shadow-md dark:bg-gray-900 w-full">
       <div className="navbar w-11/12 max-w-7xl mx-auto">
-        <div className="navbar-start">
+        {/* Mobile menu button */}
+        <div className="navbar-start lg:hidden">
+          <button
+            onClick={() => setMobileMenuOpen((prev) => !prev)}
+            className="btn btn-ghost btn-square"
+          >
+            <Menu />
+          </button>
+        </div>
+
+        <div className="navbar-center lg:navbar-start">
           <Link to="/" className="text-xl font-bold text-primary">
-            📘 Study Together
+            📘 StudyTogether
           </Link>
         </div>
 
+        {/* Desktop Menu */}
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1 text-gray-900 dark:text-white font-medium">
             <li>
@@ -54,8 +64,11 @@ const Navbar = () => {
           </ul>
         </div>
 
-        <div className="navbar-end">
-          <DarkModeToggle />
+        {/* Right Section */}
+        <div className="navbar-end flex gap-2">
+          <div className="hidden md:block">
+            <DarkModeToggle />
+          </div>
           {!user ? (
             <Link to="/login" className="btn btn-outline btn-primary btn-sm">
               Login
@@ -63,7 +76,7 @@ const Navbar = () => {
           ) : (
             <div className="relative" ref={dropdownRef}>
               <div
-                className="tooltip tooltip-bottom"
+                className="tooltip tooltip-left"
                 data-tip={user?.displayName || "User"}
               >
                 <button
@@ -100,6 +113,32 @@ const Navbar = () => {
           )}
         </div>
       </div>
+
+      {/* Mobile Dropdown */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden">
+          <ul className="absolute left-0 mt-2 w-52 p-2 shadow bg-base-200 rounded-box z-50 menu menu-sm">
+            <li>
+              <NavLink
+                to="/assignments"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Assignments
+              </NavLink>
+            </li>
+            {user && (
+              <li>
+                <NavLink
+                  to="/pendingAssignments"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Pending Assignments
+                </NavLink>
+              </li>
+            )}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

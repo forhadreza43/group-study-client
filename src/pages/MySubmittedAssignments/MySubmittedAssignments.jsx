@@ -30,7 +30,7 @@ const MySubmittedAssignments = () => {
       ) : (
         <>
           <h2 className="text-3xl font-bold mb-6 text-center text-gray-900 dark:text-gray-100">
-            My Submitted Assignments
+            My Assignments
           </h2>
           <div className="overflow-x-auto dark:text-gray-300">
             <table className="table w-full">

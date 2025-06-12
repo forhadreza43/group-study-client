@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 const FAQ = () => {
     return (
       <motion.section
-        className="w-full mx-auto px-4"
+        className="w-full mx-auto"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}

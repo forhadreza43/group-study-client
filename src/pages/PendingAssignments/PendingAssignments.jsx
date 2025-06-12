@@ -4,6 +4,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import useAxiosSecure from "../../hook/useAxiosSecure";
 import Loading from "../../components/Loading";
+import NotFound from "../../components/NotFound";
 
 const PendingAssignments = () => {
   const { user } = useAuth();
@@ -58,52 +59,54 @@ const PendingAssignments = () => {
   if (isLoading) return <Loading />;
   return (
     <div className="max-w-6xl mx-auto p-6">
-      <h2 className="text-3xl font-bold mb-6 text-center">
-        Pending Assignments
-      </h2>
       {pendingAssignments.length === 0 ? (
-        <p className="text-center">No pending assignments to evaluate.</p>
+        <NotFound />
       ) : (
-        <div className="overflow-x-auto">
-          <table className="table w-full">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Assignment Title</th>
-                <th>Marks</th>
-                <th>Examinee</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {pendingAssignments.map((submission, i) => (
-                <tr key={submission._id}>
-                  <td>{i + 1}</td>
-                  <td>{submission.assignmentTitle}</td>
-                  <td>{submission.assignmentMarks}</td>
-                  <td>{submission.userEmail}</td>
-                  <td>
-                    <button
-                      className="btn btn-sm btn-info"
-                      onClick={() => {
-                        setSelected(submission);
-                        setForm({ obtainedMarks: "", feedback: "" });
-                      }}
-                    >
-                      Give Mark
-                    </button>
-                  </td>
+        <>
+          <h2 className="text-3xl font-bold mb-6 text-center text-gray-900 dark:text-gray-100">
+            Pending Assignments
+          </h2>
+          <div className="overflow-x-auto dark:text-gray-300">
+            <table className="table w-full">
+              <thead className="bg-base-200 dark:bg-gray-700 dark:text-gray-300">
+                <tr>
+                  <th>#</th>
+                  <th>Assignment Title</th>
+                  <th>Marks</th>
+                  <th>Examinee</th>
+                  <th>Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {pendingAssignments.map((submission, i) => (
+                  <tr key={submission._id}>
+                    <td>{i + 1}</td>
+                    <td>{submission.assignmentTitle}</td>
+                    <td>{submission.assignmentMarks}</td>
+                    <td>{submission.userEmail}</td>
+                    <td>
+                      <button
+                        className="btn btn-sm btn-info"
+                        onClick={() => {
+                          setSelected(submission);
+                          setForm({ obtainedMarks: "", feedback: "" });
+                        }}
+                      >
+                        Give Mark
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
 
       {/* Modal */}
       {selected && (
         <dialog open className="modal modal-open">
-          <div className="modal-box max-w-md">
+          <div className="modal-box max-w-md dark:text-gray-300 dark:bg-gray-700">
             <h3 className="font-bold text-lg">Mark Assignment</h3>
             <p className="text-sm mt-2">
               <strong>Docs:</strong>{" "}

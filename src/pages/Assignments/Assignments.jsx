@@ -17,6 +17,7 @@ const Assignments = () => {
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const axiosSecure = useAxiosSecure();
+  const isLoggedIn = !!user?.email;
 
   const { data: assignments = [], isLoading } = useQuery({
     queryKey: ["assignments", difficulty, debouncedSearch],
@@ -37,7 +38,9 @@ const Assignments = () => {
   const deleteMutation = useMutation({
     mutationFn: (id) => {
       return axiosSecure.delete(
-        `${import.meta.env.VITE_API_URL}/assignments/${id}?email=${user.email}`
+        `${import.meta.env.VITE_API_URL}/assignments/${id}?email=${
+          user.email || ""
+        }`
       );
     },
     onSuccess: () => {
@@ -48,6 +51,7 @@ const Assignments = () => {
     onError: (err) => {
       toast.error(err.response?.data?.message || "Delete failed");
     },
+    enabled: isLoggedIn,
   });
   const debounced = useMemo(
     () =>
@@ -65,11 +69,11 @@ const Assignments = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-10">
+    <div className="w-full mx-auto py-10">
       <h1 className="text-3xl font-bold mb-6 text-center text-gray-900 dark:text-gray-300">
         All Assignments
       </h1>
-      <div className="flex flex-col md:flex-row items-center justify-between mb-6 gap-4">
+      <div className="flex flex-col md:flex-row w-full items-center justify-between mb-6 gap-4">
         {/* Difficulty Filter */}
         <select
           className="w-full md:w-48 px-3 py-2 rounded border 
@@ -132,7 +136,7 @@ const Assignments = () => {
                 Update
               </button>
 
-              {user.email === assignment.creator?.email && (
+              {user?.email === assignment?.creator?.email && (
                 <button
                   onClick={() => setDeleteId(assignment._id)}
                   className="btn btn-error btn-sm"

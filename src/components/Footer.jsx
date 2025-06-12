@@ -3,12 +3,12 @@ import { FaFacebookF, FaGithub, FaLinkedinIn } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-purple-100 dark:bg-gray-900  text-gray-700 dark:text-gray-400">
+    <footer className="bg-purple-100 w-full dark:bg-gray-900  text-gray-700 dark:text-gray-400">
       <div className="max-w-7xl w-11/12 mx-auto py-10 grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Brand Info */}
         <div>
           <Link to="/" className="text-2xl font-bold ">
-            📘 GroupStudy
+            📘 StudyTogether
           </Link>
           <p className="mt-2 text-sm">
             Empowering collaborative learning through assignments, feedback, and
@@ -73,7 +73,7 @@ const Footer = () => {
             </a>
           </div>
           <p className="text-sm mt-4">
-            © {new Date().getFullYear()} GroupStudy Inc. All rights reserved.
+            © {new Date().getFullYear()} StudyTogether Inc. All rights reserved.
           </p>
         </div>
       </div>
