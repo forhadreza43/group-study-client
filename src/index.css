@@ -8,5 +8,6 @@
     @apply underline underline-offset-7
 }
 
-input {
-    @apply w-full rounded border border-blue-300 px-4 py-2 text-gray-600 outline-none placeholder:text-gray-400 focus:border-blue-600 bg-white dark:bg-gray-800; }
+input:not(#search) {
+    @apply w-full rounded border border-blue-300 px-4 py-2 text-gray-600 outline-none placeholder:text-gray-400 focus:border-blue-600 bg-white dark:bg-gray-800; 
+}

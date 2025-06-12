@@ -6,7 +6,6 @@ import useAuth from "../../hook/useAuth";
 import { useEffect, useState, useMemo } from "react";
 import debounce from "lodash.debounce";
 import Loading from "../../components/Loading";
-import AssignmentCard from "../../components/AssignmentCard";
 
 const Assignments = () => {
   const { user } = useAuth();
@@ -69,8 +68,11 @@ const Assignments = () => {
         All Assignments
       </h1>
       <div className="flex flex-col md:flex-row items-center justify-between mb-6 gap-4">
+        {/* Difficulty Filter */}
         <select
-          className="select select-bordered w-full md:w-48 dark:bg-gray-900 "
+          className="w-full md:w-48 px-3 py-2 rounded border 
+             border-blue-300 bg-white text-gray-800 
+             dark:bg-gray-900 dark:text-white "
           value={difficulty}
           onChange={(e) => setDifficulty(e.target.value)}
         >
@@ -83,8 +85,9 @@ const Assignments = () => {
         {/* Search */}
         <input
           type="text"
+          id="search"
           placeholder="Search by title..."
-          className="input input-bordered w-full md:w-72"
+          className="input border border-blue-300 w-full md:w-72 dark:bg-gray-900 placeholder:text-gray-500"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -92,12 +95,51 @@ const Assignments = () => {
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {assignments.map((assignment) => (
-          <AssignmentCard
+          <div
             key={assignment._id}
-            assignment={assignment}
-            user={user}
-            onDeleteClick={setDeleteId}
-          />
+            className="rounded bg-base-100 dark:bg-gray-900 shadow-lg border border-blue-300 p-4 flex flex-col justify-between"
+          >
+            <div>
+              <img
+                src={assignment.thumbnail}
+                alt={assignment.title}
+                className="rounded"
+              />
+              <div className="my-3 dark:text-gray-300">
+                <h2 className="text-xl font-semibold">{assignment.title}</h2>
+                <p>Marks: {assignment.marks}</p>
+                <p>
+                  Difficulty:{" "}
+                  <span className="capitalize">{assignment.difficulty}</span>
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-2">
+              <button
+                onClick={() => navigate(`/assignment/${assignment._id}`)}
+                className="btn btn-info btn-sm"
+              >
+                View
+              </button>
+
+              <button
+                onClick={() => navigate(`/update/${assignment._id}`)}
+                className="btn btn-warning btn-sm"
+              >
+                Update
+              </button>
+
+              {user.email === assignment.creator?.email && (
+                <button
+                  onClick={() => setDeleteId(assignment._id)}
+                  className="btn btn-error btn-sm"
+                >
+                  Delete
+                </button>
+              )}
+            </div>
+          </div>
         ))}
       </div>
 

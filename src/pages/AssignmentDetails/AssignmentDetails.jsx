@@ -58,64 +58,70 @@ const AssignmentDetails = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="max-w-3xl mx-auto mt-10 p-6 bg-white shadow-md rounded">
-      <img src={assignment.thumbnail} alt="" className="rounded mb-4" />
-      <h1 className="text-2xl font-bold">{assignment.title}</h1>
-      <p className="my-2">{assignment.description}</p>
-      <p>
-        <strong>Marks:</strong> {assignment.marks}
-      </p>
-      <p>
-        <strong>Difficulty:</strong> {assignment.difficulty}
-      </p>
-      <p>
-        <strong>Due Date:</strong>{" "}
-        {new Date(assignment.dueDate).toLocaleDateString()}
-      </p>
+    <div className="flex items-center justify-center min-h-[90dvh]">
+      <div className=" w-full mx-auto  p-6 bg-white shadow-md rounded dark:bg-gray-900">
+        <img src={assignment.thumbnail} alt="" className="rounded mb-4" />
+        <div className="dark:text-gray-300">
+          <h1 className="text-2xl font-bold">{assignment.title}</h1>
+          <p className="my-2">{assignment.description}</p>
+          <p>
+            <strong>Marks:</strong> {assignment.marks}
+          </p>
+          <p>
+            <strong>Difficulty:</strong> {assignment.difficulty}
+          </p>
+          <p>
+            <strong>Due Date:</strong>{" "}
+            {new Date(assignment.dueDate).toLocaleDateString()}
+          </p>
+        </div>
 
-      <button
-        onClick={() => setShowModal(true)}
-        className="btn btn-primary mt-5"
-      >
-        Take Assignment
-      </button>
+        <button
+          onClick={() => setShowModal(true)}
+          className="btn btn-primary mt-5"
+        >
+          Take Assignment
+        </button>
 
-      {showModal && (
-        <dialog open className="modal modal-open">
-          <div className="modal-box">
-            <h3 className="font-bold text-lg mb-4">Submit Assignment</h3>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <input
-                type="url"
-                placeholder="Google Docs Link"
-                className="input input-bordered w-full"
-                value={form.docLink}
-                onChange={(e) => setForm({ ...form, docLink: e.target.value })}
-                required
-              />
-              <textarea
-                placeholder="Quick Notes"
-                className="textarea textarea-bordered w-full"
-                value={form.note}
-                onChange={(e) => setForm({ ...form, note: e.target.value })}
-                required
-              ></textarea>
-              <div className="modal-action">
-                <button type="submit" className="btn btn-success">
-                  Submit
-                </button>
-                <button
-                  type="button"
-                  className="btn"
-                  onClick={() => setShowModal(false)}
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
-        </dialog>
-      )}
+        {showModal && (
+          <dialog open className="modal modal-open">
+            <div className="modal-box dark:bg-gray-600">
+              <h3 className="font-bold text-lg mb-4 dark:text-gray-200">Submit Assignment</h3>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <input
+                  type="url"
+                  placeholder="Google Docs Link"
+                  className="input input-bordered w-full"
+                  value={form.docLink}
+                  onChange={(e) =>
+                    setForm({ ...form, docLink: e.target.value })
+                  }
+                  required
+                />
+                <textarea
+                  placeholder="Quick Notes"
+                  className="textarea textarea-bordered w-full"
+                  value={form.note}
+                  onChange={(e) => setForm({ ...form, note: e.target.value })}
+                  required
+                ></textarea>
+                <div className="modal-action">
+                  <button type="submit" className="btn btn-success">
+                    Submit
+                  </button>
+                  <button
+                    type="button"
+                    className="btn"
+                    onClick={() => setShowModal(false)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          </dialog>
+        )}
+      </div>
     </div>
   );
 };
