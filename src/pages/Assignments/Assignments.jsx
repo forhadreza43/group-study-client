@@ -6,6 +6,7 @@ import useAuth from "../../hook/useAuth";
 import { useEffect, useState, useMemo } from "react";
 import debounce from "lodash.debounce";
 import Loading from "../../components/Loading";
+import AssignmentCard from "../../components/AssignmentCard";
 
 const Assignments = () => {
   const { user } = useAuth();
@@ -31,7 +32,6 @@ const Assignments = () => {
       return res.data;
     },
   });
-  
 
   const deleteMutation = useMutation({
     mutationFn: (id) => {
@@ -58,19 +58,19 @@ const Assignments = () => {
 
   useEffect(() => {
     debounced(search);
-    return () => debounced.cancel(); 
+    return () => debounced.cancel();
   }, [search, debounced]);
-  
 
-  if (isLoading) return <Loading/>;
+  if (isLoading) return <Loading />;
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold mb-6 text-center">All Assignments</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center text-gray-900 dark:text-gray-300">
+        All Assignments
+      </h1>
       <div className="flex flex-col md:flex-row items-center justify-between mb-6 gap-4">
-        {/* Difficulty Filter */}
         <select
-          className="select select-bordered w-full md:w-48"
+          className="select select-bordered w-full md:w-48 dark:bg-gray-900 "
           value={difficulty}
           onChange={(e) => setDifficulty(e.target.value)}
         >
@@ -92,47 +92,12 @@ const Assignments = () => {
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {assignments.map((assignment) => (
-          <div
+          <AssignmentCard
             key={assignment._id}
-            className="card bg-base-100 shadow-lg border p-4 space-y-3"
-          >
-            <img
-              src={assignment.thumbnail}
-              alt={assignment.title}
-              className="rounded"
-            />
-            <h2 className="text-xl font-semibold">{assignment.title}</h2>
-            <p>Marks: {assignment.marks}</p>
-            <p>
-              Difficulty:{" "}
-              <span className="capitalize">{assignment.difficulty}</span>
-            </p>
-
-            <div className="flex gap-2">
-              <button
-                onClick={() => navigate(`/assignment/${assignment._id}`)}
-                className="btn btn-info btn-sm"
-              >
-                View
-              </button>
-
-              <button
-                onClick={() => navigate(`/update/${assignment._id}`)}
-                className="btn btn-warning btn-sm"
-              >
-                Update
-              </button>
-
-              {user.email === assignment.creator?.email && (
-                <button
-                  onClick={() => setDeleteId(assignment._id)}
-                  className="btn btn-error btn-sm"
-                >
-                  Delete
-                </button>
-              )}
-            </div>
-          </div>
+            assignment={assignment}
+            user={user}
+            onDeleteClick={setDeleteId}
+          />
         ))}
       </div>
 
