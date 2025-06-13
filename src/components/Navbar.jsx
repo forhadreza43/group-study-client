@@ -52,8 +52,9 @@ const Navbar = () => {
         </div>
 
         <div className="navbar-center lg:navbar-start">
-          <Link to="/" className="text-xl font-bold text-primary">
-            📘 StudyTogether
+          <Link to="/" className="text-xl dark:text-blue-500 font-bold text-primary flex items-center-safe">
+            <img src="./study.svg" alt="" className="w-8 mr-2 mb-1" />
+            StudyTogether
           </Link>
         </div>
 

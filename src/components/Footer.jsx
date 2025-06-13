@@ -7,8 +7,9 @@ const Footer = () => {
       <div className="max-w-7xl w-11/12 mx-auto py-10 grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Brand Info */}
         <div>
-          <Link to="/" className="text-2xl font-bold ">
-            📘 StudyTogether
+          <Link to="/" className="text-2xl text-blue-700 dark:text-blue-500 font-bold flex items-center">
+            <img src="./study.svg" alt="" className="w-9 mr-2 mb-1" />
+            StudyTogether
           </Link>
           <p className="mt-2 text-sm">
             Empowering collaborative learning through assignments, feedback, and
