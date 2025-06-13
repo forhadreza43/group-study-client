@@ -39,7 +39,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="bg-purple-100 shadow-md dark:bg-gray-900 w-full">
+    <div className="bg-purple-100/70 backdrop-blur-xl shadow-md dark:bg-gray-900 w-full fixed top-0 z-999 ">
       <div className="navbar w-11/12 max-w-7xl mx-auto">
         {/* Mobile menu button */}
         <div className="navbar-start lg:hidden">

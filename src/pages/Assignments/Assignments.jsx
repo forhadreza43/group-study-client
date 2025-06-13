@@ -109,7 +109,7 @@ const Assignments = () => {
               <img
                 src={assignment.thumbnail}
                 alt={assignment.title}
-                className="rounded w-full"
+                className="rounded w-full h-50 object-cover"
               />
               <div className="my-3 dark:text-gray-300">
                 <h2 className="text-xl font-semibold">{assignment.title}</h2>
