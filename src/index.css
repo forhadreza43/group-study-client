@@ -1,9 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 @plugin "daisyui" {
     themes: light --default;
 }
 
+@theme{
+    --font-Monserat:"Montserrat", sans-serif;
+    --font-Railway:"Raleway", sans-serif;
+    --font-Poppin:"Poppins", sans-serif;
+}
 .active{
     @apply underline underline-offset-7
 }
@@ -12,3 +18,8 @@ input:not(#search) {
     @apply w-full dark:text-gray-100 rounded border border-blue-300 px-4 py-2 text-gray-600 outline-none placeholder:text-gray-400 focus:border-blue-600 bg-white dark:bg-gray-800; 
 }
 
+html,
+body {
+    transition: background-color 0.4s ease, color 0.4s ease;
+    @apply font-Railway;
+}
