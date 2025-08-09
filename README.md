@@ -47,7 +47,7 @@ This project is designed to enhance **collaborative learning** by streamlining t
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/forhadreza43/godesh-client.git
-cd godesh-client
+git clone https://github.com/forhadreza43/group-study-client.git
+cd group-study-client
 
 ```
